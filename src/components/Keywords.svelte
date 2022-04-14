@@ -91,6 +91,10 @@ function processFiles() {
 <input type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
 <button on:click={startProcessing}>Process Files</button>
 
+<p>
+    Processed Files: {processedFilesCount}
+</p>
+
 {#each matchingFiles as match}
 <p>{match.fileName}</p>
 {/each}
