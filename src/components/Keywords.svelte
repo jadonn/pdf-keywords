@@ -2,7 +2,51 @@
     let searchTerm;
     let pdfUpload;
     const workerLimit = 3;
+    let workerCount = 0;
+    let dispatchedFilesCount = 0;
+    let processedFilesCount = 0;
+    let processedFilesData = [];
     let matchingFiles = [];
+
+function startProcessing(){
+    console.log("Starting Processing");
+    startWorker();
+    setTimeout(startWorker, 1000);
+}
+
+function startWorker() {
+    if(pdfUpload.files !== undefined && dispatchedFilesCount !== pdfUpload.files.length && workerCount < workerLimit) {
+        console.log("Creating new worker");
+        const newWorker = new Worker("worker.js");
+        newWorker.onmessage = function(e) {
+            const data = e.data;
+            if(data.fileName !== undefined){
+                processedFilesData.push(data);
+                const matches = data.matches;
+                if(matches !== undefined && matches.length !== 0) {
+                    matchingFiles.push(data);
+                    matchingFiles = matchingFiles;
+                }
+                processedFilesCount += 1;
+                newWorker.terminate();
+                workerCount -= 1;
+                console.log(workerCount);
+            }
+        }
+        newWorker.onerror = function(e) {
+            console.error(e);
+            newWorker.terminate();
+            workerCount -= 1;
+        }
+        newWorker.postMessage({currentFile: pdfUpload.files[dispatchedFilesCount], searchTerm: searchTerm});
+        dispatchedFilesCount += 1;
+        workerCount += 1;
+    }
+
+    if(pdfUpload.files !== undefined && dispatchedFilesCount !== pdfUpload.files.length) {
+        setTimeout(startWorker, 1000);
+    }
+}
 
 function processFilesWithWorkers() {
     const fileList = pdfUpload.files;
@@ -75,7 +119,7 @@ function processFiles() {
 <label for="searchTerm">Search Term:</label>
 <input type="text" id="searchTerm" bind:value={searchTerm} />
 <input type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
-<button on:click={processFilesWithWorkers}>Process Files</button>
+<button on:click={startProcessing}>Process Files</button>
 
 {#each matchingFiles as match}
 <p>{match.fileName}</p>

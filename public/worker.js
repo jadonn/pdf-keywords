@@ -1,10 +1,8 @@
 self.importScripts("pdf.min.js");
 self.importScripts("pdf.worker.min.js");
-self.importScripts("pdf.worker.entry.min.js");
 pdfjsLib.GlobalWorkerOptions.workerSrc = "pdf.worker.min.js";
 onmessage = async function (e){
     const data = e.data;
-    console.log(data);
     const currentFile = data.currentFile;
     const searchTerm = data.searchTerm;
     const reader = new FileReaderSync();
@@ -26,5 +24,5 @@ onmessage = async function (e){
             }
         })
     }
-    postMessage(matches);
+    postMessage({fileName: currentFile.name, matches: matches});
 }
