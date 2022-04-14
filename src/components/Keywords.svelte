@@ -1,7 +1,7 @@
 <script>
     let searchTerm;
     let pdfUpload;
-    const workerLimit = 3;
+    let workerLimit = 1;
     let workerCount = 0;
     let dispatchedFilesCount = 0;
     let processedFilesCount = 0;
@@ -86,6 +86,8 @@ function processFiles() {
 }
 
 </script>
+<label for="workerLimit">Worker Limit (1-6):</label>
+<input type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
 <label for="searchTerm">Search Term:</label>
 <input type="text" id="searchTerm" bind:value={searchTerm} />
 <input type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
