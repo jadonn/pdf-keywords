@@ -86,12 +86,22 @@ function processFiles() {
 }
 
 </script>
-<label for="workerLimit">Worker Limit (1-6):</label>
-<input type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
-<label for="searchTerm">Search Term:</label>
-<input type="text" id="searchTerm" bind:value={searchTerm} />
-<input type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
+<div class="mt-5 container max-w-md sm:max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
+<div class="grid grid-cols-1 justify-items-center gap-6 mx-auto">
+    <label class="block" for="pdfUpload">
+        <span class="text-gray-700">Select Files:</span>
+        <input class="form-input px-4 py-3" type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
+    </label>
+    <label class="block" for="searchTerm">
+        <span class="text-gray-700">Search Term</span>
+        <input class="mt-1 block" type="text" id="searchTerm" bind:value={searchTerm} />
+    </label>
+    <label class="block" for="workerLimit">
+        <span class="text-gray-700">Worker Limit (1-6)</span>
+        <input class="mt block w-max" type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
+    </label>
 <button on:click={startProcessing}>Process Files</button>
+</div>
 
 <p>
     Processed Files: {processedFilesCount}
@@ -100,3 +110,4 @@ function processFiles() {
 {#each matchingFiles as match}
 <p>{match.fileName}</p>
 {/each}
+</div>
