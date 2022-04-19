@@ -107,7 +107,10 @@ function processFiles() {
     Processed Files: {processedFilesCount}
 </p>
 
+<h2 class="text-4xl text-center tracking-wide">Matching Files</h2>
 {#each matchingFiles as match}
-<p>{match.fileName}</p>
+<div class="outline mt-4 mb-4">
+<p class="pl-2">{match.fileName}</p>
+</div>
 {/each}
 </div>
