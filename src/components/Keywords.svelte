@@ -100,7 +100,7 @@ function processFiles() {
         <span class="text-gray-700">Worker Limit (1-6)</span>
         <input class="mt-1 block" type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
     </label>
-<button on:click={startProcessing}>Process Files</button>
+<button class="p-2 outline bg-blue-800 text-white" on:click={startProcessing}>Process Files</button>
 </div>
 
 <p>
