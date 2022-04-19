@@ -8,6 +8,10 @@
     let processedFilesData = [];
     let matchingFiles = [];
 
+function downloadMatches(){
+
+}
+
 function startProcessing(){
     console.log("Starting Processing");
     startWorker();
@@ -31,6 +35,9 @@ function startWorker() {
                 newWorker.terminate();
                 workerCount -= 1;
                 console.log(workerCount);
+                
+                console.log("Processed: " + processedFilesCount);
+                console.log("Length: " + pdfUpload.files.length);
             }
         }
         newWorker.onerror = function(e) {
@@ -101,6 +108,7 @@ function processFiles() {
         <input class="mt-1 block" type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
     </label>
 <button class="p-2 outline bg-blue-800 text-white" on:click={startProcessing}>Process Files</button>
+<button class="p-2 outline disabled:hidden" disabled={processedFilesCount === 0 || processedFilesCount !== pdfUpload?.files?.length} on:click={downloadMatches}>Download Matches</button>
 </div>
 
 <p>
