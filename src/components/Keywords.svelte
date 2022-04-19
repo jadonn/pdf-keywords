@@ -34,10 +34,6 @@ function startWorker() {
                 processedFilesCount += 1;
                 newWorker.terminate();
                 workerCount -= 1;
-                console.log(workerCount);
-                
-                console.log("Processed: " + processedFilesCount);
-                console.log("Length: " + pdfUpload.files.length);
             }
         }
         newWorker.onerror = function(e) {
