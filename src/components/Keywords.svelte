@@ -87,16 +87,16 @@ function processFiles() {
 
 </script>
 <div class="mt-5 container max-w-md sm:max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
-<div class="grid grid-cols-1 justify-items-center gap-6 mx-auto">
-    <label class="block" for="pdfUpload">
+<div class="grid grid-cols-1 justify-items-center gap-6 w-auto">
+    <label class="inline-flex flex-col w-60" for="pdfUpload">
         <span class="text-gray-700">Select Files</span>
         <input class="form-input mt-1 block" type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
     </label>
-    <label class="block" for="searchTerm">
+    <label class="inline-flex flex-col w-60" for="searchTerm">
         <span class="text-gray-700">Search Term</span>
         <input class="mt-1 block" type="text" id="searchTerm" bind:value={searchTerm} />
     </label>
-    <label class="block" for="workerLimit">
+    <label class="inline-flex flex-col w-60" for="workerLimit">
         <span class="text-gray-700">Worker Limit (1-6)</span>
         <input class="mt-1 block" type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
     </label>
