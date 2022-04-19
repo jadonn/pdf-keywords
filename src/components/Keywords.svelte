@@ -1,4 +1,6 @@
 <script>
+	import { slide } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
     let searchTerm;
     let pdfUpload;
     let workerLimit = 1;
@@ -103,8 +105,12 @@ function processFiles() {
         <span class="text-gray-700">Worker Limit (1-6)</span>
         <input class="mt-1 block" type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
     </label>
-<button class="p-2 outline bg-blue-800 text-white" on:click={startProcessing}>Process Files</button>
-<button class="p-2 outline disabled:hidden" disabled={processedFilesCount === 0 || processedFilesCount !== pdfUpload?.files?.length} on:click={downloadMatches}>Download Matches</button>
+{#if dispatchedFilesCount === 0}
+<button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={startProcessing}>Process Files</button>
+{/if}
+{#if processedFilesCount !== 0 && processedFilesCount === pdfUpload?.files?.length}
+<button class="p-2 outline disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={downloadMatches}>Download Matches</button>
+{/if}
 </div>
 
 <p>
