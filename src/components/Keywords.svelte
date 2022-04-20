@@ -105,17 +105,24 @@ function processFiles() {
         <span class="text-gray-700">Worker Limit (1-6)</span>
         <input class="mt-1 block" type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
     </label>
-{#if dispatchedFilesCount === 0}
-<button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={startProcessing}>Process Files</button>
-{/if}
-{#if processedFilesCount !== 0 && processedFilesCount === pdfUpload?.files?.length}
-<button class="p-2 outline disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={downloadMatches}>Download Matches</button>
-{/if}
+    {#if dispatchedFilesCount === 0}
+    <button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 50, duration: 300, easing: quintOut }}" on:click={startProcessing}>Process Files</button>
+    {/if}
+    {#if dispatchedFilesCount !== 0}
+        <div transition:slide="{{delay: 250, duration: 300, easing: quintOut }}">
+            <label for="fileProgress">
+                File Progress:
+            </label>
+            <progress id="fileProgress" max="{pdfUpload?.files?.length}" value={processedFilesCount}></progress>
+            <p>
+                Processed Files: {processedFilesCount}
+            </p>
+        </div>
+    {/if}
+    {#if processedFilesCount !== 0 && processedFilesCount === pdfUpload?.files?.length}
+    <button class="p-2 outline disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={downloadMatches}>Download Matches</button>
+    {/if}
 </div>
-
-<p>
-    Processed Files: {processedFilesCount}
-</p>
 
 <h2 class="text-4xl text-center tracking-wide">Matching Files</h2>
 {#each matchingFiles as match}
