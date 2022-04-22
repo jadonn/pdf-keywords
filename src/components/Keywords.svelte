@@ -107,6 +107,10 @@ function processFiles() {
 </script>
 <div class="mt-5 container max-w-md sm:max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
 <div class="grid grid-cols-1 justify-items-center gap-6 w-auto">
+    <p>
+        <a class="p-2 outline mr-2" href="https://github.com/jadonn/pdf-keywords">GitHub</a>
+        <a class="p-2 outline ml-2" href="https://twitter.com/JadonNaas">Twitter</a>
+    </p>
     <label class="inline-flex flex-col w-60" for="pdfUpload">
         <span class="text-gray-700">Select Files</span>
         <input class="form-input mt-1 block" type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
