@@ -1,6 +1,7 @@
 <script>
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+    import { stringify } from 'csv-stringify/browser/esm/sync';
     let searchTerm;
     let pdfUpload;
     let workerLimit = 1;
@@ -9,9 +10,22 @@
     let processedFilesCount = 0;
     let processedFilesData = [];
     let matchingFiles = [];
+    let csvURL;
+    let csvFilename;
 
-function downloadMatches(){
-
+function generateCSV(){
+    const textMatches = [];
+    matchingFiles.forEach(file => {
+        file.matches.forEach(match => {
+            textMatches.push([file.fileName, match.pageNumber, match.text]);
+        });
+    });
+    let CSVstring = "filename,pageNumber,text\r\n";
+    CSVstring += stringify(textMatches);
+    const csvBlob = new Blob([CSVstring], {type: "text/csv"});
+    csvURL = URL.createObjectURL(csvBlob);
+    const now = new Date();
+    csvFilename = `pdf-keywords_${now.getFullYear()}-${now.getMonth()}-${now.getDate()}_${now.getHours()}:${now.getMinutes()}.csv`
 }
 
 function startProcessing(){
@@ -120,7 +134,10 @@ function processFiles() {
         </div>
     {/if}
     {#if processedFilesCount !== 0 && processedFilesCount === pdfUpload?.files?.length}
-    <button class="p-2 outline disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={downloadMatches}>Download Matches</button>
+    <button class="p-2 outline disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={generateCSV}>Generate CSV</button>
+    {/if}
+    {#if csvURL !== undefined}
+        <a class="p-2 outline" download={csvFilename} transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" href={csvURL}>Download CSV</a>
     {/if}
 </div>
 

@@ -16,6 +16,7 @@
     "svelte": "^3.47.0"
   },
   "dependencies": {
+    "csv-stringify": "^6.0.5",
     "pdfjs-dist": "^2.13.216"
   }
 }
