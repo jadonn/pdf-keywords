@@ -137,11 +137,11 @@ function processFiles() {
             </p>
         </div>
     {/if}
-    {#if processedFilesCount !== 0 && processedFilesCount === pdfUpload?.files?.length}
-    <button class="p-2 outline disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={generateCSV}>Generate CSV</button>
+    {#if processedFilesCount !== 0 && processedFilesCount === pdfUpload?.files?.length && csvURL === undefined}
+    <button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={generateCSV}>Generate CSV</button>
     {/if}
     {#if csvURL !== undefined}
-        <a class="p-2 outline" download={csvFilename} transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" href={csvURL}>Download CSV</a>
+        <a class="p-2 outline bg-blue-800 text-white" download={csvFilename} transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" href={csvURL}>Download CSV</a>
     {/if}
 </div>
 
