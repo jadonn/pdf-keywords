@@ -12,6 +12,8 @@
     let matchingFiles = [];
     let csvURL;
     let csvFilename;
+    let processingErrors = [];
+    let errorsCount = 0;
 
 function generateCSV(){
     const textMatches = [];
@@ -40,6 +42,12 @@ function startWorker() {
         const newWorker = new Worker("worker.js");
         newWorker.onmessage = function(e) {
             const data = e.data;
+            if(data.error !== undefined){
+                processingErrors.push(data);
+                processingErrors = processingErrors;
+                errorsCount += 1;
+                return;
+            }
             if(data.fileName !== undefined){
                 processedFilesData.push(data);
                 const matches = data.matches;
@@ -135,6 +143,9 @@ function processFiles() {
             <p>
                 Processed Files: {processedFilesCount}
             </p>
+            <p>
+                Errors: {errorsCount}
+            </p>
         </div>
     {/if}
     {#if processedFilesCount !== 0 && processedFilesCount === pdfUpload?.files?.length && csvURL === undefined}
@@ -145,10 +156,22 @@ function processFiles() {
     {/if}
 </div>
 
+<div class="py-4">
+    <div class="w-full h-1 bg-black"></div>
+</div>
 <h2 class="text-4xl text-center tracking-wide">Matching Files</h2>
 {#each matchingFiles as match}
 <div class="outline mt-4 mb-4">
 <p class="pl-2">{match.fileName}</p>
 </div>
+{/each}
+<div class="py-4">
+    <div class="w-full h-1 bg-black"></div>
+</div>
+<h2 class="text-4xl text-center tracking-wide">Error Files</h2>
+{#each processingErrors as error}
+    <div class="outline outline-dashed outline-pink-500 mt-4 mb-4">
+        <p class="pl-2">{error.fileName}</p>
+    </div>
 {/each}
 </div>
