@@ -116,64 +116,64 @@ function processFiles() {
 
 </script>
 <div class="mt-5 container max-w-md sm:max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
-<div class="grid grid-cols-1 justify-items-center gap-6 w-auto">
-    <p>
-        <a class="p-2 outline mr-2" href="https://github.com/jadonn/pdf-keywords">GitHub</a>
-        <a class="p-2 outline ml-2" href="https://twitter.com/JadonNaas">Twitter</a>
-    </p>
-    <label class="inline-flex flex-col w-60" for="pdfUpload">
-        <span class="text-gray-700">Select Files</span>
-        <input class="form-input mt-1 block" disabled={disableForm} type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
-    </label>
-    <label class="inline-flex flex-col w-60" for="searchTerm">
-        <span class="text-gray-700">Search Term</span>
-        <input class="mt-1 block" disabled={disableForm} type="text" id="searchTerm" bind:value={searchTerm} />
-    </label>
-    <label class="inline-flex flex-col w-60" for="workerLimit">
-        <span class="text-gray-700">Worker Limit (1-6)</span>
-        <input class="mt-1 block" disabled={disableForm} type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
-    </label>
-    {#if dispatchedFilesCount === 0}
-    <button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 50, duration: 300, easing: quintOut }}" on:click={startProcessing}>Process Files</button>
-    {/if}
-    {#if dispatchedFilesCount !== 0}
-        <div transition:slide="{{delay: 250, duration: 300, easing: quintOut }}">
-            <label for="fileProgress">
-                File Progress:
-            </label>
-            <progress id="fileProgress" max="{pdfUpload?.files?.length}" value={processedFilesCount}></progress>
-            <p>
-                Processed Files: {processedFilesCount}
-            </p>
-            <p>
-                Errors: {errorsCount}
-            </p>
-        </div>
-    {/if}
-    {#if processedFilesCount !== 0 && processedFilesCount === pdfUpload?.files?.length && csvURL === undefined}
-    <button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={generateCSV}>Generate CSV</button>
-    {/if}
-    {#if csvURL !== undefined}
-        <a class="p-2 outline bg-blue-800 text-white" download={csvFilename} transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" href={csvURL}>Download CSV</a>
-    {/if}
-</div>
-
-<div class="py-4">
-    <div class="w-full h-1 bg-black"></div>
-</div>
-<h2 class="text-4xl text-center tracking-wide">Matching Files</h2>
-{#each matchingFiles as match}
-<div class="outline mt-4 mb-4">
-<p class="pl-2">{match.fileName}</p>
-</div>
-{/each}
-<div class="py-4">
-    <div class="w-full h-1 bg-black"></div>
-</div>
-<h2 class="text-4xl text-center tracking-wide">Error Files</h2>
-{#each processingErrors as error}
-    <div class="outline outline-dashed outline-pink-500 mt-4 mb-4">
-        <p class="pl-2">{error.fileName}</p>
+    <div class="grid grid-cols-1 justify-items-center gap-6 w-auto">
+        <p>
+            <a class="p-2 outline mr-2" href="https://github.com/jadonn/pdf-keywords">GitHub</a>
+            <a class="p-2 outline ml-2" href="https://twitter.com/JadonNaas">Twitter</a>
+        </p>
+        <label class="inline-flex flex-col w-60" for="pdfUpload">
+            <span class="text-gray-700">Select Files</span>
+            <input class="form-input mt-1 block" disabled={disableForm} type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
+        </label>
+        <label class="inline-flex flex-col w-60" for="searchTerm">
+            <span class="text-gray-700">Search Term</span>
+            <input class="mt-1 block" disabled={disableForm} type="text" id="searchTerm" bind:value={searchTerm} />
+        </label>
+        <label class="inline-flex flex-col w-60" for="workerLimit">
+            <span class="text-gray-700">Worker Limit (1-6)</span>
+            <input class="mt-1 block" disabled={disableForm} type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
+        </label>
+        {#if dispatchedFilesCount === 0}
+        <button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 50, duration: 300, easing: quintOut }}" on:click={startProcessing}>Process Files</button>
+        {/if}
+        {#if dispatchedFilesCount !== 0}
+            <div transition:slide="{{delay: 250, duration: 300, easing: quintOut }}">
+                <label for="fileProgress">
+                    File Progress:
+                </label>
+                <progress id="fileProgress" max="{pdfUpload?.files?.length}" value={processedFilesCount}></progress>
+                <p>
+                    Processed Files: {processedFilesCount}
+                </p>
+                <p>
+                    Errors: {errorsCount}
+                </p>
+            </div>
+        {/if}
+        {#if processedFilesCount !== 0 && processedFilesCount === pdfUpload?.files?.length && csvURL === undefined}
+        <button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" on:click={generateCSV}>Generate CSV</button>
+        {/if}
+        {#if csvURL !== undefined}
+            <a class="p-2 outline bg-blue-800 text-white" download={csvFilename} transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" href={csvURL}>Download CSV</a>
+        {/if}
     </div>
-{/each}
+
+    <div class="py-4">
+        <div class="w-full h-1 bg-black"></div>
+    </div>
+    <h2 class="text-4xl text-center tracking-wide">Matching Files</h2>
+    {#each matchingFiles as match}
+    <div class="outline mt-4 mb-4">
+    <p class="pl-2">{match.fileName}</p>
+    </div>
+    {/each}
+    <div class="py-4">
+        <div class="w-full h-1 bg-black"></div>
+    </div>
+    <h2 class="text-4xl text-center tracking-wide">Error Files</h2>
+    {#each processingErrors as error}
+        <div class="outline outline-dashed outline-pink-500 mt-4 mb-4">
+            <p class="pl-2">{error.fileName}</p>
+        </div>
+    {/each}
 </div>
