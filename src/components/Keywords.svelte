@@ -14,6 +14,7 @@
     let csvFilename;
     let processingErrors = [];
     let errorsCount = 0;
+    let disableForm = false;
 
 function generateCSV(){
     const textMatches = [];
@@ -32,6 +33,7 @@ function generateCSV(){
 
 function startProcessing(){
     console.log("Starting Processing");
+    disableForm = true;
     startWorker();
     setTimeout(startWorker, 1000);
 }
@@ -121,15 +123,15 @@ function processFiles() {
     </p>
     <label class="inline-flex flex-col w-60" for="pdfUpload">
         <span class="text-gray-700">Select Files</span>
-        <input class="form-input mt-1 block" type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
+        <input class="form-input mt-1 block" disabled={disableForm} type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
     </label>
     <label class="inline-flex flex-col w-60" for="searchTerm">
         <span class="text-gray-700">Search Term</span>
-        <input class="mt-1 block" type="text" id="searchTerm" bind:value={searchTerm} />
+        <input class="mt-1 block" disabled={disableForm} type="text" id="searchTerm" bind:value={searchTerm} />
     </label>
     <label class="inline-flex flex-col w-60" for="workerLimit">
         <span class="text-gray-700">Worker Limit (1-6)</span>
-        <input class="mt-1 block" type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
+        <input class="mt-1 block" disabled={disableForm} type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
     </label>
     {#if dispatchedFilesCount === 0}
     <button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 50, duration: 300, easing: quintOut }}" on:click={startProcessing}>Process Files</button>
