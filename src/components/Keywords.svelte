@@ -134,7 +134,7 @@ function processFiles() {
             <input class="mt-1 block" disabled={disableForm} type="number" id="workerLimit" min="1" max="6" bind:value={workerLimit} />
         </label>
         {#if dispatchedFilesCount === 0}
-        <button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 50, duration: 300, easing: quintOut }}" on:click={startProcessing}>Process Files</button>
+            <button class="p-2 outline bg-blue-800 text-white disabled:opacity-50" disabled={pdfUpload?.files === undefined || searchTerm.length === 0 || searchTerm === ""} transition:slide="{{delay: 50, duration: 300, easing: quintOut }}" on:click={startProcessing}>Process Files</button>
         {/if}
         {#if dispatchedFilesCount !== 0}
             <div transition:slide="{{delay: 250, duration: 300, easing: quintOut }}">
