@@ -4,6 +4,7 @@
     import { stringify } from 'csv-stringify/browser/esm/sync';
     let searchTerm;
     let pdfUpload;
+    let files;
     let workerLimit = 1;
     let workerCount = 0;
     let dispatchedFilesCount = 0;
@@ -15,6 +16,25 @@
     let processingErrors = [];
     let errorsCount = 0;
     let disableForm = false;
+    let unique = {};
+
+function reset(){
+    console.log(pdfUpload);
+    searchTerm = undefined;
+    pdfUpload.value = '';
+    workerLimit = 1;
+    workerCount = 0;
+    dispatchedFilesCount = 0;
+    processedFilesCount = 0;
+    processedFilesData = [];
+    matchingFiles = [];
+    csvURL = undefined;
+    csvFilename = undefined;
+    processingErrors = [];
+    errorsCount = 0;
+    disableForm = false;
+    unique = {};
+}
 
 function generateCSV(){
     const textMatches = [];
@@ -39,7 +59,7 @@ function startProcessing(){
 }
 
 function startWorker() {
-    if(pdfUpload.files !== undefined && dispatchedFilesCount !== pdfUpload.files.length && workerCount < workerLimit) {
+    if(files !== undefined && dispatchedFilesCount !== files.length && workerCount < workerLimit) {
         console.log("Creating new worker");
         const newWorker = new Worker("worker.js");
         newWorker.onmessage = function(e) {
@@ -67,18 +87,18 @@ function startWorker() {
             newWorker.terminate();
             workerCount -= 1;
         }
-        newWorker.postMessage({currentFile: pdfUpload.files[dispatchedFilesCount], searchTerm: searchTerm});
+        newWorker.postMessage({currentFile: files[dispatchedFilesCount], searchTerm: searchTerm});
         dispatchedFilesCount += 1;
         workerCount += 1;
     }
 
-    if(pdfUpload.files !== undefined && dispatchedFilesCount !== pdfUpload.files.length) {
+    if(files !== undefined && dispatchedFilesCount !== files.length) {
         setTimeout(startWorker, 1000);
     }
 }
 
 function processFiles() {
-    const fileList = pdfUpload.files;
+    const fileList = files;
     console.log(fileList);
     for (let index = 0; index < fileList.length; index++) {
         const currentFile = fileList[index];
@@ -115,6 +135,7 @@ function processFiles() {
 }
 
 </script>
+{#key unique}
 <div class="mt-5 container max-w-md sm:max-w-lg md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
     <div class="grid grid-cols-1 justify-items-center gap-6 w-auto">
         <p>
@@ -123,7 +144,7 @@ function processFiles() {
         </p>
         <label class="inline-flex flex-col w-60" for="pdfUpload">
             <span class="text-gray-700">Select Files</span>
-            <input class="form-input mt-1 block" disabled={disableForm} type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
+            <input class="form-input mt-1 block" disabled={disableForm} type="file" id="pdfUpload" bind:files bind:this={pdfUpload} multiple />
         </label>
         <label class="inline-flex flex-col w-60" for="searchTerm">
             <span class="text-gray-700">Search Term</span>
@@ -136,6 +157,7 @@ function processFiles() {
         {#if dispatchedFilesCount === 0}
         <button class="p-2 outline bg-blue-800 text-white disabled:hidden" transition:slide="{{delay: 50, duration: 300, easing: quintOut }}" on:click={startProcessing}>Process Files</button>
         {/if}
+        <button class="p-2 outline bg-gray-300" on:click={reset}>Reset</button>
         {#if dispatchedFilesCount !== 0}
             <div transition:slide="{{delay: 250, duration: 300, easing: quintOut }}">
                 <label for="fileProgress">
@@ -177,3 +199,4 @@ function processFiles() {
         </div>
     {/each}
 </div>
+{/key}
