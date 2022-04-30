@@ -156,6 +156,7 @@ function processFiles() {
         {#if csvURL !== undefined}
             <a class="p-2 outline bg-blue-800 text-white" download={csvFilename} transition:slide="{{delay: 250, duration: 300, easing: quintOut }}" href={csvURL}>Download CSV</a>
         {/if}
+        <a href="/" class="p-2 outline bg-gray-500 text-white">Reset</a>
     </div>
 
     <div class="py-4">
