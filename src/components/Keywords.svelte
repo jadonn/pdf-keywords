@@ -121,6 +121,16 @@ function processFiles() {
             <a class="p-2 outline mr-2" href="https://github.com/jadonn/pdf-keywords">GitHub</a>
             <a class="p-2 outline ml-2" href="https://twitter.com/JadonNaas">Twitter</a>
         </p>
+        <h2 class="text-4xl text-center tracking-wide">How to Use</h2>
+        <ol class="list-decimal list-inside">
+            <li>Select PDF files from your computer.</li>
+            <li>Enter the phrase or term for which you want to search.</li>
+            <li>Set the number of workers (that is, CPU threads) to use to process more PDFs at the same time. <strong>Do not use more workers than you have CPU threads.</strong>
+            </li>
+            <li>Click the blue "Process Files" button to start processing. All processing happens in your browser on your local computer. No data is sent anywhere.</li>
+            <li>When processing is done, click the blue "Generate CSV" button to generate a CSV.</li>
+            <li>When the CSV is generated, click the blue "Download CSV" button to download the CSV file of results to your computer.</li>
+        </ol>
         <label class="inline-flex flex-col w-60" for="pdfUpload">
             <span class="text-gray-700">Select Files</span>
             <input class="form-input mt-1 block" disabled={disableForm} type="file" id="pdfUpload" bind:this={pdfUpload} multiple />
